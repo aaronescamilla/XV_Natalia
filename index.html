@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Mis XV Años - Nataly García Millán</title>
+    <title>Mis XV Años - Natalia García Millán</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kapakana:wght@300..400&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
@@ -455,7 +455,7 @@
             padding: 20px;
         }
 
-        .firma-nataly {
+        .firma-Natalia {
             font-family: var(--fuente-michroma);
             font-size: clamp(20px, 3vw, 28px);
             color: #115D80;
@@ -1069,7 +1069,7 @@
                  onerror="handleImageError(this)">
            
             <div class="fallback-envelope">
-                <div class="content-title">Nataly García Millán</div>
+                <div class="content-title">Natalia García Millán</div>
                 <div class="content-subtitle">Cumple 15 años</div>
                 <div class="content-subtitle">21 de Febrero, 2026</div>
             </div>
@@ -1086,7 +1086,7 @@
     <div class="invitation-content" id="invitationContent">
         <!-- Portada -->
         <section class="portada section-hidden">
-            <img src="./resources/images/nombre.webp" alt="Nataly García Millán" class="nombre-imagen">
+            <img src="./resources/images/nombre.png" alt="Natalia García Millán" class="nombre-imagen">
         </section>
 
         <!-- Datos de familiares -->
@@ -1130,7 +1130,7 @@
         <!-- Frase -->
         <section class="frase section-hidden">
             <p>Hoy mi corazón se llena de ilusión y esperanza. Celebro mis quince años, un sueño hecho realidad, y quiero que formes parte de esta historia mágica</p>
-            <div class="firma-nataly">Nataly</div>
+            <div class="firma-Natalia">Natalia</div>
         </section>
 
         <!-- Conteo regresivo -->
@@ -1217,9 +1217,9 @@
                 Gracias por ser parte de este dia tan especial. Toma una foto espectacular y súbela con los hashtags:
             </div>
             <div class="hashtags-linea">
-                <div class="hashtag izquierda">#NatalyXV</div>
-                <div class="hashtag centro">#FiestaNataly</div>
-                <div class="hashtag derecha">#XVNataly</div>
+                <div class="hashtag izquierda">#NataliaXV</div>
+                <div class="hashtag centro">#FiestaNatalia</div>
+                <div class="hashtag derecha">#XVNatalia</div>
             </div>
            
             <div class="carrusel">
@@ -1235,7 +1235,7 @@
         <!-- Footer -->
         <footer>
             <div class="footer-line-1">
-                <span>Con cariño, </span><span>Nataly</span>
+                <span>Con cariño, </span><span>Natalia</span>
             </div>
             <div class="footer-line-2">
                 Creado con 💙. <a href="https://wa.me/525564950944?text=Quiero%20información%20acerca%20de%20las%20invitaciones%20Digitales%20personalizadas%20💙" target="_blank">Contáctanos</a>
@@ -1314,7 +1314,8 @@
                     './resources/images/quinceanera.webp',
                     './resources/images/background.webp',
                     './resources/sounds/sound.ogg',
-                    './resources/videos/backgrpund.webm'
+                    './resources/videos/background.mp4',
+                    './resources/videos/background.webm'
                 ];
                
                 let loaded = 0;
@@ -1615,15 +1616,15 @@
             // AGREGADO: Función para crear evento en calendario
             document.getElementById('btnAgendar').addEventListener('click', function() {
                 // Detalles del evento
-                const titulo = 'Cumpleaños de Nataly - Ceremonia';
+                const titulo = 'Cumpleaños de Natalia - Ceremonia';
                 const fecha = '2026-02-21T16:00:00'; // 21 de febrero 2026 a las 4:00pm
                 const lugar = 'Parroquia de Santiago Apostol';
                
                 // Crear URL para Google Calendar
-                const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=20260221T220000Z/20260221T230000Z&details=Evento%20de%20XV%20años%20de%20Nataly&location=${encodeURIComponent(lugar)}`;
+                const googleCalendarUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(titulo)}&dates=20260221T220000Z/20260221T230000Z&details=Evento%20de%20XV%20años%20de%20Natalia&location=${encodeURIComponent(lugar)}`;
                
                 // Crear URL para Outlook Calendar
-                const outlookCalendarUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(titulo)}&startdt=2026-02-21T16:00:00&enddt=2026-02-21T17:00:00&location=${encodeURIComponent(lugar)}&body=Evento%20de%20XV%20años%20de%20Nataly`;
+                const outlookCalendarUrl = `https://outlook.live.com/calendar/0/deeplink/compose?subject=${encodeURIComponent(titulo)}&startdt=2026-02-21T16:00:00&enddt=2026-02-21T17:00:00&location=${encodeURIComponent(lugar)}&body=Evento%20de%20XV%20años%20de%20Natalia`;
                
                 // Crear URL para Apple Calendar
                 const appleCalendarUrl = `data:text/calendar;charset=utf8,BEGIN:VCALENDAR
@@ -1634,7 +1635,7 @@ DTSTART:20260221T220000Z
 DTEND:20260221T230000Z
 SUMMARY:${titulo}
 LOCATION:${lugar}
-DESCRIPTION:Evento de XV años de Nataly
+DESCRIPTION:Evento de XV años de Natalia
 END:VEVENT
 END:VCALENDAR`;
                
