@@ -61,6 +61,7 @@
             height: 200px;
             cursor: pointer;
             margin: 20px 0;
+            -webkit-tap-highlight-color: transparent;
         }
     
         .envelope-image {
@@ -109,6 +110,7 @@
             transition: all 0.3s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             font-size: 16px;
+            -webkit-appearance: none;
         }
     
         .open-invitation-btn:hover {
@@ -1038,6 +1040,19 @@
                 height: 160px;
             }
         }
+
+        /* Optimizaciones específicas para Safari */
+        @supports (-webkit-touch-callout: none) {
+            .background-video {
+                -webkit-transform: translateZ(0);
+                transform: translateZ(0);
+            }
+            
+            .invitation-envelope {
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1278,27 +1293,25 @@
     </div>
 
     <script>
-        // Detectar si el navegador soporta video
-        function supportsVideo() {
-            const video = document.createElement('video');
-            return !!video.canPlayType;
-        }
-
-        // Detectar si el navegador puede reproducir WebM
-        function supportsWebM() {
-            const video = document.createElement('video');
-            return !!video.canPlayType && video.canPlayType('video/webm; codecs="vp8, vorbis"') !== "";
-        }
-
         // Función para manejar errores de carga de imagen
         function handleImageError(img) {
             console.log('La imagen del sobre no se pudo cargar, mostrando respaldo');
             img.classList.add('error');
         }
 
+        // Función de timeout de seguridad
+        function withTimeout(promise, timeoutMs) {
+            return Promise.race([
+                promise,
+                new Promise((resolve, reject) => {
+                    setTimeout(() => reject(new Error('Timeout')), timeoutMs);
+                })
+            ]);
+        }
+
         // Función para precargar recursos
         function preloadResources() {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 const resources = [
                     './resources/images/sobre.webp',
                     './resources/images/nombre.webp',
@@ -1311,21 +1324,27 @@
                     './resources/images/quinceanera.webp',
                     './resources/images/background.webp',
                     './resources/sounds/sound.ogg',
-                    './resources/videos/background.mp4',
-                    './resources/videos/background.webm'
+                    './resources/videos/background.mp4' // Priorizar MP4 para Safari
                 ];
                
                 let loaded = 0;
+                let errors = 0;
                 const total = resources.length;
+                const maxWaitTime = 10000; // 10 segundos máximo
                
                 if (total === 0) {
                     resolve();
                     return;
                 }
                
+                const timeoutId = setTimeout(() => {
+                    console.log('Timeout en precarga, continuando...');
+                    resolve(); // Continuar aunque no todos se carguen
+                }, maxWaitTime);
+               
                 resources.forEach(src => {
                     const isAudio = src.includes('.ogg');
-                    const isVideo = src.includes('.webm');
+                    const isVideo = src.includes('.mp4') || src.includes('.webm');
                     let element;
                    
                     if (isAudio) {
@@ -1340,12 +1359,27 @@
                         element = new Image();
                     }
                    
-                    element.onload = element.onloadeddata = element.onerror = () => {
+                    const onLoad = () => {
                         loaded++;
-                        if (loaded === total) {
+                        if (loaded + errors === total) {
+                            clearTimeout(timeoutId);
                             resolve();
                         }
                     };
+                   
+                    const onError = () => {
+                        errors++;
+                        console.warn('Error cargando recurso:', src);
+                        if (loaded + errors === total) {
+                            clearTimeout(timeoutId);
+                            resolve(); // Resolver igualmente para no bloquear
+                        }
+                    };
+                   
+                    element.onload = onLoad;
+                    element.onloadeddata = onLoad;
+                    element.onerror = onError;
+                    element.onabort = onError;
                    
                     element.src = src;
                 });
@@ -1379,65 +1413,95 @@
             `;
             document.body.appendChild(loadingText);
            
-            // Precargar recursos antes de continuar
-            await preloadResources();
-           
-            // Remover mensaje de carga
-            loadingText.remove();
-           
-            // Animación de apertura del sobre
-            invitationEnvelope.classList.remove('envelope-closed');
-            invitationEnvelope.classList.add('envelope-open');
-           
-            // Mostrar el contenido de la invitación después de la animación
-            setTimeout(function() {
-                invitationContent.classList.add('show');
-                // Iniciar animaciones de scroll
-                checkVisibility();
+            try {
+                // Precargar con timeout de 8 segundos
+                await withTimeout(preloadResources(), 8000);
+                loadingText.remove();
+                
+                // Animación de apertura del sobre
+                invitationEnvelope.classList.remove('envelope-closed');
+                invitationEnvelope.classList.add('envelope-open');
                
-                // SOLUCIÓN UNIVERSAL PARA VIDEO
-                const playVideo = () => {
-                    // Verificar si el video está listo
-                    if (backgroundVideo.readyState >= 2) {
-                        backgroundVideo.play().then(() => {
-                            console.log('Video de fondo reproducido correctamente');
-                        }).catch(error => {
-                            console.log('Error al reproducir video de fondo: ', error);
-                            // Si falla, usar imagen de fondo
-                            document.body.classList.add('no-video');
-                        });
-                    } else {
+                // Mostrar el contenido de la invitación después de la animación
+                setTimeout(function() {
+                    invitationContent.classList.add('show');
+                    // Iniciar animaciones de scroll
+                    checkVisibility();
+                   
+                    // SOLUCIÓN MEJORADA PARA SAFARI - Video
+                    const playVideo = () => {
+                        // Forzar carga del video
+                        backgroundVideo.load();
+                        
                         // Esperar a que el video esté listo
                         backgroundVideo.addEventListener('loadeddata', function() {
-                            backgroundVideo.play().then(() => {
-                                console.log('Video de fondo reproducido correctamente');
-                            }).catch(error => {
-                                console.log('Error al reproducir video de fondo: ', error);
-                                document.body.classList.add('no-video');
-                            });
+                            // En Safari, debemos esperar a que el usuario interactúe
+                            const playPromise = backgroundVideo.play();
+                            
+                            if (playPromise !== undefined) {
+                                playPromise.then(() => {
+                                    console.log('Video de fondo reproducido correctamente');
+                                }).catch(error => {
+                                    console.log('Safari bloqueó la reproducción automática: ', error);
+                                    // Silenciar y reintentar
+                                    backgroundVideo.muted = true;
+                                    backgroundVideo.play().then(() => {
+                                        console.log('Video reproducido silenciado');
+                                    }).catch(error2 => {
+                                        console.log('Usando fallback de imagen');
+                                        document.body.classList.add('no-video');
+                                    });
+                                });
+                            }
                         });
                         
-                        // Timeout de seguridad
+                        // Timeout de seguridad para Safari
                         setTimeout(() => {
-                            if (backgroundVideo.paused) {
+                            if (backgroundVideo.paused && !document.body.classList.contains('no-video')) {
+                                console.log('Activando fallback por timeout');
                                 document.body.classList.add('no-video');
                             }
-                        }, 3000);
-                    }
-                };
+                        }, 2000);
+                    };
+                    
+                    // Reproducir el video
+                    playVideo();
+                   
+                    // MANEJO MEJORADO DE AUDIO PARA SAFARI
+                    const playAudio = () => {
+                        // Resetear el audio
+                        audioPlayer.currentTime = 0;
+                        
+                        const audioPromise = audioPlayer.play();
+                        if (audioPromise !== undefined) {
+                            audioPromise.then(() => {
+                                // Actualizar icono del botón de play/pause
+                                playIcon.classList.remove('fa-play');
+                                playIcon.classList.add('fa-pause');
+                            }).catch(error => {
+                                console.log('Safari bloqueó el audio automático: ', error);
+                                // En Safari, esperamos a que el usuario interactúe con el botón de play
+                                playPauseBtn.style.display = 'flex'; // Asegurar que sea visible
+                            });
+                        }
+                    };
+                    
+                    // Intentar reproducir audio
+                    playAudio();
+                }, 1000);
                 
-                // Reproducir el video
-                playVideo();
-               
-                // REPRODUCIR AUDIO
-                audioPlayer.play().then(() => {
-                    // Actualizar icono del botón de play/pause
-                    playIcon.classList.remove('fa-play');
-                    playIcon.classList.add('fa-pause');
-                }).catch(error => {
-                    console.log('Error al reproducir audio: ', error);
-                });
-            }, 1000);
+            } catch (error) {
+                console.error('Error durante la carga:', error);
+                loadingText.remove();
+                // Mostrar contenido incluso si hay error en recursos
+                invitationEnvelope.classList.remove('envelope-closed');
+                invitationEnvelope.classList.add('envelope-open');
+                setTimeout(function() {
+                    invitationContent.classList.add('show');
+                    document.body.classList.add('no-video');
+                    checkVisibility();
+                }, 1000);
+            }
         }
 
         // Función para animar textos por transparencia
@@ -1461,7 +1525,6 @@
             envelopeContainer.addEventListener('click', openEnvelope);
             envelopeImage.addEventListener('click', openEnvelope);
            
-            // El resto del código JavaScript permanece igual...
             // Animaciones al hacer scroll
             // Observador para secciones
             const sectionObserver = new IntersectionObserver((entries) => {
