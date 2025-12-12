@@ -302,11 +302,18 @@
 
         .portada .nombre-imagen {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            max-width: 80%;
-            width: clamp(200px, 50vw, 600px);
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Esto la coloca en el centro exacto */
+            right: auto; /* Anulamos la posición derecha anterior */
+            
+            /* --- AUMENTAR TAMAÑO --- */
+            /* Antes: clamp(200px, 50vw, 600px) */
+            /* Ahora la hacemos mucho más grande: */
+            width: clamp(350px, 85vw, 1000px); 
+            max-width: 95%; /* Margen de seguridad para celulares muy pequeños */
             height: auto;
+            
             margin: 0;
             filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
             z-index: 10;
