@@ -176,8 +176,12 @@
             box-sizing: border-box;
         }
 
+        /* --- CAMBIO 1: SCROLL SNAP (EL FRENO) --- */
         html {
             scroll-behavior: smooth;
+            scroll-snap-type: y mandatory; /* Activa el efecto imán */
+            height: 100vh;
+            overflow-y: auto;
         }
 
         body {
@@ -191,13 +195,15 @@
         section {
             padding: 60px 20px;
             position: relative;
-            min-height: 100vh;
+            min-height: 100vh; /* Necesario para que el snap funcione bien */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 100%;
             overflow: hidden;
+            /* --- CAMBIO 1: ALINEACIÓN DEL SNAP --- */
+            scroll-snap-align: start; /* Se detiene al inicio de la sección */
         }
 
         .section-hidden {
@@ -365,7 +371,7 @@
             z-index: 1;
         }
 
-        /* --- NUEVA SECCIÓN FAMILIARES (SLIDER HORIZONTAL) --- */
+        /* FAMILIARES */
         .familiares {
             background-image: url('./resources/images/fondo_familiares.webp');
             background-size: 100% 100%;
@@ -402,12 +408,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            
-            /* --- CAMBIO AQUÍ: BAJAR TEXTO ESCRITORIO --- */
-            justify-content: flex-start; /* Empezamos desde arriba */
-            padding-top: 150px; /* Bajamos el texto para que no choque con el marco */
-            /* ------------------------------------------- */
-            
+            justify-content: flex-start;
+            padding-top: 150px;
             gap: 30px;
             padding-left: 40px;
             padding-right: 40px;
@@ -456,7 +458,8 @@
         .fecha {
             text-align: center;
             padding: 30px 15px;
-            min-height: auto;
+            /* Nota: min-height: 100vh ya está en la regla 'section' general, 
+               así que aquí quitamos 'auto' para asegurar el snap correcto */
         }
 
         .fecha h2 {
@@ -496,7 +499,7 @@
             text-align: center;
             position: relative;
             padding: 60px 10px;
-            min-height: 70vh;
+            min-height: 100vh; /* Ajustado para el snap */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -541,9 +544,8 @@
 
         .conteo {
             text-align: center;
-            min-height: auto;
-            padding-top: 40px;
-            justify-content: flex-start;
+            /* padding-top: 40px; quitado para centrar mejor con snap */
+            justify-content: center; /* Centrado vertical */
         }
 
         .conteo h2 {
@@ -810,13 +812,15 @@
 
         .carrusel {
             position: relative;
-            max-width: 500px;
+            max-width: 320px;
             width: 100%;
-            height: 400px;
+            height: 460px;
             margin: 30px auto 0;
             overflow: hidden;
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-color: transparent;
+            box-shadow: none; /* Quitamos la sombra del cuadro para que no se vea el marco */
         }
 
         .carrusel-inner {
@@ -831,12 +835,18 @@
             min-height: 100%;
             width: 100%;
             height: 100%;
+            display: flex;
+            align-items: center; 
+            justify-content: center;
         }
 
+        /* --- CAMBIO 2: IMAGENES CARRUSEL --- */
         .carrusel-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain; /* Muestra la foto entera sin cortar */
+            background-color: transparent;
+            filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
         }
 
         footer {
@@ -844,6 +854,7 @@
             padding: 30px 20px;
             text-align: center;
             width: 100%;
+            scroll-snap-align: start; /* También frenamos en el footer */
         }
 
         .footer-line-1 {
@@ -915,23 +926,25 @@
             
             /* --- CORRECCIÓN PORTADA MÓVIL --- */
             .portada {
-                min-height: unset !important;
-                height: auto !important;
+                min-height: 100vh !important; /* Importante para el snap en movil */
+                height: 100vh !important;
                 aspect-ratio: 2834 / 2496;
                 width: 100%;
                 background-size: cover; 
                 background-repeat: no-repeat;
                 background-position: top center;
                 padding: 0; 
-                display: block;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
             }
 
             section { padding: 40px 15px; }
 
             /* --- CORRECCIÓN SECCIÓN FAMILIARES MÓVIL --- */
             .familiares {
-                min-height: unset !important;
-                height: auto !important;
+                min-height: 100vh !important;
+                height: 100vh !important;
                 aspect-ratio: 2336 / 2600;
                 width: 100%;
                 background-size: 100% 100%; 
@@ -946,12 +959,8 @@
     
             .familiares-slide {
                 height: 100%;
-                
-                /* --- CAMBIO AQUÍ: BAJAR TEXTO MÓVIL --- */
-                justify-content: flex-start; /* Empezar arriba */
-                padding-top: 15%; /* Porcentaje para que se adapte al tamaño de la imagen */
-                /* -------------------------------------- */
-                
+                justify-content: flex-start; 
+                padding-top: 15%; 
                 padding-left: 10px;
                 padding-right: 10px;
             }
@@ -965,7 +974,6 @@
                 font-size: clamp(36px, 4.5vw, 38px);
                 margin-bottom: 5px;
             }
-            /* ---------------------------------------------------- */
 
             .familiar-divisor { width: clamp(120px, 35vw, 200px); margin-bottom: 15px; }
             .invitacion-texto { font-size: 60px; }
