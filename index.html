@@ -295,7 +295,6 @@
             margin-bottom: 0;
         }
 
-        /* Portada */
         .portada {
             background-image: url('./resources/images/quinceanera.webp');
             background-size: cover;
@@ -310,16 +309,11 @@
             position: absolute;
             top: 15%;
             left: 50%;
-            transform: translate(-50%, -50%); /* Esto la coloca en el centro exacto */
-            right: auto; /* Anulamos la posición derecha anterior */
-            
-            /* --- AUMENTAR TAMAÑO --- */
-            /* Antes: clamp(200px, 50vw, 600px) */
-            /* Ahora la hacemos mucho más grande: */
+            transform: translate(-50%, -50%);
+            right: auto;
             width: clamp(350px, 85vw, 1000px); 
-            max-width: 95%; /* Margen de seguridad para celulares muy pequeños */
+            max-width: 95%;
             height: auto;
-            
             margin: 0;
             filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
             z-index: 10;
@@ -997,7 +991,7 @@
             .hashtag.centro { text-align: center; }
             .hashtag.derecha { text-align: right; }
 
-            .scroll-indicator { bottom: 20px; }
+            .scroll-indicator { bottom: 60px; }
             .scroll-indicator i { font-size: 24px; }
             .scroll-indicator p { font-size: 12px; }
         }
