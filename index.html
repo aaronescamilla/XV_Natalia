@@ -182,12 +182,14 @@
             box-sizing: border-box;
         }
 
-        /* --- CAMBIO 1: SCROLL SNAP (EL FRENO) --- */
+        /* --- MODIFICACIÓN 1: SCROLL SNAP PADRE --- */
         html {
+            height: 100vh; /* Altura forzada */
+            overflow-y: scroll; /* Scroll obligatorio */
             scroll-behavior: smooth;
-            scroll-snap-type: y mandatory; /* Activa el efecto imán */
-            height: 100vh;
-            overflow-y: auto;
+            
+            /* LA MAGIA DEL MAGNETISMO */
+            scroll-snap-type: y mandatory; 
         }
 
         body {
@@ -196,20 +198,29 @@
             color: #333;
             overflow-x: hidden;
             width: 100%;
+            min-height: 100vh;
         }
 
+        /* --- MODIFICACIÓN 2: SECCIONES CON FRENO --- */
         section {
             padding: 60px 20px;
             position: relative;
-            min-height: 100vh; /* Necesario para que el snap funcione bien */
+            
+            /* Altura mínima para ocupar toda la pantalla */
+            min-height: 100vh; 
+            
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             width: 100%;
             overflow: hidden;
-            /* --- CAMBIO 1: ALINEACIÓN DEL SNAP --- */
-            scroll-snap-align: start; /* Se detiene al inicio de la sección */
+            
+            /* PUNTO DE ANCLAJE */
+            scroll-snap-align: start; 
+            
+            /* EL FRENO FUERTE (Impide saltar secciones rápido) */
+            scroll-snap-stop: always; 
         }
 
         .section-hidden {
@@ -465,8 +476,6 @@
         .fecha {
             text-align: center;
             padding: 30px 15px;
-            /* Nota: min-height: 100vh ya está en la regla 'section' general, 
-               así que aquí quitamos 'auto' para asegurar el snap correcto */
         }
 
         .fecha h2 {
@@ -506,7 +515,7 @@
             text-align: center;
             position: relative;
             padding: 60px 10px;
-            min-height: 100vh; /* Ajustado para el snap */
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -551,8 +560,7 @@
 
         .conteo {
             text-align: center;
-            /* padding-top: 40px; quitado para centrar mejor con snap */
-            justify-content: center; /* Centrado vertical */
+            justify-content: center;
         }
 
         .conteo h2 {
@@ -837,7 +845,6 @@
             justify-content: center;
         }
 
-        /* --- CAMBIO 2: IMAGENES CARRUSEL --- */
         .carrusel-item img {
             width: 100%;
             height: 100%;
@@ -846,12 +853,16 @@
             filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
         }
 
+        /* --- MODIFICACIÓN 3: FOOTER SNAP --- */
         footer {
             background-color: #ffffff;
             padding: 30px 20px;
             text-align: center;
             width: 100%;
-            scroll-snap-align: start; /* También frenamos en el footer */
+            
+            /* Alineación al final para que quede pegado abajo al terminar */
+            scroll-snap-align: end; 
+            scroll-snap-stop: always;
         }
 
         .footer-line-1 {
@@ -921,9 +932,8 @@
         /* Responsive - PRIORIDAD MÓVIL */
         @media (max-width: 768px) {
             
-            /* --- CORRECCIÓN PORTADA MÓVIL --- */
             .portada {
-                min-height: 100vh !important; /* Importante para el snap en movil */
+                min-height: 100vh !important; 
                 height: 100vh !important;
                 aspect-ratio: 2834 / 2496;
                 width: 100%;
@@ -938,7 +948,6 @@
 
             section { padding: 40px 15px; }
 
-            /* --- CORRECCIÓN SECCIÓN FAMILIARES MÓVIL --- */
             .familiares {
                 min-height: 100vh !important;
                 height: 100vh !important;
