@@ -705,18 +705,25 @@
             background-position: center;
         }
 
-        .confirmacion-asistencia {
+        .confirmacion-section {
+            background-size: cover;
+            background-position: center;
             text-align: center;
-            margin-top: 40px;
-            width: 100%;
+            /* Esto asegura que el imán la atrape */
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
-        .confirmacion-asistencia p {
-            font-family: var(--fuente-montserrat);
-            color: #333;
-            font-size: clamp(18px, 4vw, 22px);
-            margin-bottom: 15px;
-            font-weight: 500;
+        /* Si el video falla, que tenga fondo */
+        .no-video .confirmacion-section {
+            background-image: url('./resources/images/background.webp');
+        }
+
+        .confirmacion-section h2 {
+            font-family: var(--fuente-playfair);
+            color: var(--azul);
+            font-size: 40px;
+            margin-bottom: 20px;
         }
 
         .btn-confirmar-asistencia {
@@ -852,10 +859,16 @@
         /* --- MODIFICACIÓN 3: FOOTER SNAP --- */
         footer {
             background-color: #ffffff;
-            padding: 30px 20px;
+            padding: 50px 20px;
             text-align: center;
             width: 100%;            
-            scroll-snap-align: end; 
+            min-height: 20vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
         .footer-line-1 {
@@ -1154,8 +1167,14 @@
                 </div>
                 <a href="https://www.google.com/maps/dir/?api=1&destination=19.176417848812587,-99.46658852488844&travelmode=driving" target="_blank" class="btn-ubicacion">Ir a Ubicación</a>
             </div>
+            </section>
+
+        <section class="confirmacion-section section-hidden">
             <div class="confirmacion-asistencia element-hidden">
-                <p>Confirma tu Asistencia <button class="btn-confirmar-asistencia">Aquí</button></p>
+                <h2>¡No faltes!</h2>
+                <p>Tu presencia es muy importante para nosotros.</p>
+                <p>Confirma tu Asistencia tocando el botón:</p>
+                <button class="btn-confirmar-asistencia">Confirmar Asistencia</button>
             </div>
         </section>
 
