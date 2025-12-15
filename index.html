@@ -701,16 +701,6 @@
             background-position: center;
         }
 
-        .icono-recepcion {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
-            background-image: url('./resources/images/ico_recepcion.webp');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-
         .confirmacion-asistencia {
             text-align: center;
             margin-top: 40px;
@@ -1001,7 +991,7 @@
             .hashtag.centro { text-align: center; }
             .hashtag.derecha { text-align: right; }
 
-            .scroll-indicator { bottom: 60px; }
+            .scroll-indicator { bottom: 20px; }
             .scroll-indicator i { font-size: 24px; }
             .scroll-indicator p { font-size: 12px; }
         }
@@ -1202,17 +1192,6 @@
                     <div class="form-group">
                         <label for="nombre">Nombre o apellido de Familia</label>
                         <input type="text" id="nombre" name="nombre" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="boletos">Número de Boletos</label>
-                        <select id="boletos" name="boletos" required>
-                            <option value="" disabled selected>Selecciona</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                        </select>
-                    </div>
                     <div class="form-buttons">
                         <button type="button" class="btn btn-confirmar" id="btn-confirmar">Confirmar</button>
                         <button type="button" class="btn btn-cancelar" id="btn-cancelar">Cancelar</button>
@@ -1240,7 +1219,6 @@
                 const resources = [
                     './resources/images/sobre.webp', './resources/images/nombre.webp', './resources/images/divisor1.webp',
                     './resources/images/recuadro_quinceanera.webp', './resources/images/fecha.webp', './resources/images/savethedate.webp',
-                    './resources/images/ico_iglesia.webp', './resources/images/ico_recepcion.webp', './resources/images/quinceanera.webp',
                     './resources/images/background.webp', './resources/sounds/sound.ogg', './resources/videos/background.mp4', './resources/videos/background.webm',
                     './resources/images/fondo_familiares.jpg'
                 ];
@@ -1437,9 +1415,8 @@
 
             btnConfirmar.addEventListener('click', function() {
                 const nombre = document.getElementById('nombre').value;
-                const boletos = document.getElementById('boletos').value;
-                if (!nombre || !boletos) { alert('Por favor, completa todos los campos obligatorios.'); return; }
-                const mensaje = `Soy (somos) ${nombre}, Confirmamos nuestra asistencia. Requeriremos ${boletos} boleto(s).`;
+                if (!nombre) { alert('Por favor, ingresa tu nombre o familia.'); return; }
+                const mensaje = `Soy (somos) ${nombre}, Confirmamos nuestra asistencia a los XV de Natalia.`;
                 const url = `https://wa.me/527293206916?text=${encodeURIComponent(mensaje)}`;
                 window.open(url, '_blank');
                 modal.style.display = 'none';
@@ -1532,5 +1509,3 @@ END:VCALENDAR`;
     </script>
 </body>
 </html>
-
-
