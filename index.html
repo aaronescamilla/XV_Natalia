@@ -866,18 +866,15 @@
             filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.3));
         }
 
-        footer {
+        .footer {
             background-color: #ffffff;
-            min-height: 100vh; 
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            scroll-snap-align: start; 
+            padding: 40px 20px; 
+            text-align: center;
+            width: 100%;    
+            height: auto;
+            min-height: auto;
+            scroll-snap-align: end; 
             scroll-snap-stop: always;
-            padding-bottom: 80px; 
-            width: 100%;
-            box-sizing: border-box;
         }
 
         .footer-line-1 {
@@ -1552,4 +1549,5 @@ END:VCALENDAR`;
         checkVisibility();
     </script>
 </body>
+
 </html>
