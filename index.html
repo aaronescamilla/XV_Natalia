@@ -629,30 +629,33 @@
         .datos {
             display: flex;
             flex-direction: column;
-            gap: 50px;
+            gap: 20px; /* Reducido de 50px a 20px para acercar los bloques */
             width: 100%;
-            position: relative;
+            padding: 20px 15px; /* Menos padding superior/inferior */
         }
 
         .datos-item {
             text-align: center;
             max-width: 500px;
             width: 100%;
-            z-index: 1;
+            margin-bottom: 10px; /* Espacio mínimo entre bloques */
         }
 
         .datos-item h3 {
             font-family: var(--fuente-playfair);
             color: var(--azul);
-            font-size: 60px;
-            margin-bottom: 15px;
+            font-size: 38px;
+            margin-top: 2px;    /* Espacio mínimo respecto al icono de arriba */
+            margin-bottom: 5px; /* Espacio mínimo respecto al texto de abajo */
+            line-height: 1;     /* Reduce el espacio entre líneas del propio texto */
         }
 
         .datos-item p {
             font-family: var(--fuente-montserrat);
             color: #555;
-            font-size: clamp(16px, 3vw, 18px);
-            margin-bottom: 10px;
+            font-size: clamp(14px, 2.8vw, 16px);
+            margin-bottom: 5px;
+            line-height: 1.3;
         }
 
         .datos-item p strong {
@@ -661,8 +664,8 @@
 
         .mapa-container {
             width: 100%;
-            height: 200px;
-            margin: 15px 0;
+            height: 150px;
+            margin: 10px 0;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(0,0,0,0.1);
@@ -678,13 +681,13 @@
             background-color: var(--azul);
             color: var(--blanco);
             border: none;
-            padding: 12px 25px;
+            padding: 10px 20px;
             border-radius: 25px;
             font-family: var(--fuente-montserrat);
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            margin: 10px 0;
+            margin-top: 5px;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
@@ -696,9 +699,9 @@
         }
 
         .icono-iglesia {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
+            width: 80x;
+            height: 80px;
+            margin: 0 auto 0px;
             background-image: url('./resources/images/ico_iglesia.webp');
             background-size: contain;
             background-repeat: no-repeat;
@@ -706,9 +709,9 @@
         }
 
         .icono-recepcion {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 15px;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 0px;
             background-image: url('./resources/images/ico_recepcion.webp');
             background-size: contain;
             background-repeat: no-repeat;
@@ -1029,14 +1032,14 @@
             section { padding: 30px 10px; }
             .familiar-text { padding: 0 10px; }
             .invitacion-texto { font-size: 48px; }
-            .fecha h2 { font-size: 32px; }
+            .fecha h2 { font-size: 32px; }.datos-item h3 { font-size: 32px; }
             .fecha-img:first-of-type { width: clamp(300px, 105vw, 450px); }
             .fecha-img:last-of-type { width: clamp(420px, 135vw, 600px); }
             .datos-item h3 { font-size: 36px; }
             .contador-item { min-width: 60px; }
             .audio-player { flex-direction: column; gap: 5px; padding: 8px; border-radius: 25px; }
             .audio-player audio { width: 100px; }
-            .mapa-container { height: 160px; }
+            .mapa-container { height: 130px; }
         }
     </style>
 </head>
@@ -1155,8 +1158,7 @@
                 <div class="icono-iglesia"></div>
                 <h3>Ceremonia</h3>
                 <p><strong>Parroquia de Santiago Apóstol</strong></p>
-                <p>Josefa Ortiz de Domínguez, Santiago Tianguistenco</p>
-                <p>13:00 HRS</p>
+                <p>Josefa Ortiz de Domínguez, Santiago Tianguistenco — <strong>13:00 HRS</strong></p>
                 <div class="mapa-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d647.1837317298114!2d-99.4683695015608!3d19.182085727157382!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cdf3cd4407e943%3A0x834066bc2e26cbb5!2sParroquia%20de%20Santiago%20Ap%C3%B3stol%20Tianguistenco!5e0!3m2!1ses!2smx!4v1762913539475!5m2!1ses!2smx" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
@@ -1166,8 +1168,7 @@
                 <div class="icono-recepcion"></div>
                 <h3>Fiesta</h3>
                 <p>Jardín La Cabaña</p>
-                <p>1ra Cda. de Catarino Gonzalez 7, Santiago Tianguistenco</p>
-                <p>15:00 HRS</p>
+                <p>1ra Cda. de Catarino Gonzalez 7, Santiago Tianguistenco — <strong>15:00 HRS</strong></p>
                 <div class="mapa-container">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3768.4298738211282!2d-99.46658852488844!3d19.176417848812587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85cdf22c4a113209%3A0x327a4c4c4ee4a962!2sJard%C3%ADn%20la%20Caba%C3%B1a%20Eventos%20Sociales!5e0!3m2!1ses!2smx!4v1762913567995!5m2!1ses!2smx" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
@@ -1551,5 +1552,3 @@ END:VCALENDAR`;
 </body>
 
 </html>
-
-
